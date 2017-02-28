@@ -1,0 +1,11 @@
+{
+    "defaultEnv": "local",
+    "local": {
+        "driver": "pg",
+        "user": "EnterpriseKanban",
+        "password": "EnterpriseKanban",
+        "host": "localhost",
+        "database": "EnterpriseKanban"
+    },
+    "sql-file" : true
+}
