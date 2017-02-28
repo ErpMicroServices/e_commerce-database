@@ -71,5 +71,63 @@ create table if not exists web_content_role(
   web_content_type_id uuid references web_content_type(id),
   web_content_id uuid references web_content(id),
   party_id uuid,
-  constraint web_content_role_id_pk primary key(id)
+  constraint web_content_role_id primary key(id)
+);
+
+create table if not exists web_object_type (
+  id uuid default uuid_generate_v4(),
+  description text not null unique constraint web_object_type_description_not_empty check(description <> ''),
+  constraint web_object_type_pk primary key(id)
+);
+
+create table if not exists web_object (
+  id uuid default uuid_generate_v4(),
+  name text not null unique constraint web_object_name_not_empty check(name <> ''),
+  description text not null constraint web_object_description_not_empty check(name <> ''),
+  file_location text,
+  web_object_type_id uuid not null references web_object_type(id),
+  constraint web_object_id_pk primary key(id)
+);
+
+create table if not exists feature_object(
+  id uuid default uuid_generate_v4(),
+  product_feature_id uuid not null,
+  web_object_id uuid not null references web_object(id),
+  constraint feature_object_pk primary key(id)
+);
+
+create table if not exists object_usage(
+  id uuid default uuid_generate_v4(),
+  web_object_id uuid references web_object(id),
+  web_content_id uuid references web_content(id),
+  from_date timestamp not null,
+  thru_date timestamp,
+  constraint object_usage_pk primary key(id)
+);
+
+create table if not exists purpose_type (
+  id uuid default uuid_generate_v4(),
+  description text not null unique constraint purpose_type_description_not_empty check(description <> ''),
+  constraint purpose_type_pk primary key(id)
+);
+
+create table if not exists object_purpose(
+  id uuid default uuid_generate_v4(),
+  web_object_id uuid not null references web_object(id),
+  purpose_type_id uuid not null references purpose_type(id),
+  constraint object_purpose_pk primary key(id)
+);
+
+create table if not exists product_object(
+  id uuid default uuid_generate_v4(),
+  product_id uuid not null,
+  web_object_id uuid not null references web_object(id),
+  constraint product_object_pk primary key(id)
+);
+
+create table if not exists party_object(
+  id uuid default uuid_generate_v4(),
+  party_id uuid not null,
+  web_object_id uuid not null references web_object(id),
+  constraint party_object_pk primary key(id)
 );
