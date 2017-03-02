@@ -2,10 +2,10 @@
     "defaultEnv": "local",
     "local": {
         "driver": "pg",
-        "user": "EnterpriseKanban",
-        "password": "EnterpriseKanban",
+        "user": "ems_ecommerce",
+        "password": "ems_ecommerce",
         "host": "localhost",
-        "database": "EnterpriseKanban"
+        "database": "ems_ecommerce"
     },
     "sql-file" : true
 }

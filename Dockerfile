@@ -1,8 +1,8 @@
 FROM postgres:9.6.1
 
-ENV POSTGRES_DB=EnterpriseKanban
-ENV POSTGRES_USER=EnterpriseKanban
-ENV POSTGRES_PASSWORD=EnterpriseKanban
+ENV POSTGRES_DB=ems_ecommerce
+ENV POSTGRES_USER=ems_ecommerce
+ENV POSTGRES_PASSWORD=ems_ecommerce
 
 RUN apt-get update -qq && \
     apt-get install -y apt-utils postgresql-contrib
