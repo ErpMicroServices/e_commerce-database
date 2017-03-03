@@ -1,40 +1,27 @@
 // features/support/world.js
-var pg = require('pg');
-var Pool = require("pg-pool");
-
-var config = {
-    host: 'localhost',
-    database: 'EnterpriseKanban',
-    user: 'EnterpriseKanban',
-    password: 'EnterpriseKanban',
-    max: 10,
-    idleTimeoutMillis: 30000
-}
-
-var pool = new Pool(config);
+import config from "./config";
+import database from "./database";
 
 var {
     defineSupportCode
 } = require('cucumber');
 
 function CustomWorld() {
-    this.pg = pg;
-    this.db = pool;
-    this.user = {
-        email: '',
-        first_name: '',
-        last_name: '',
-        password: ''
-    };
+  this.config = config;
+  this.db = database;
+  this.user = {
+      user_id: '',
+      password: ''
+  };
 
-    this.result = {
-        error: null,
-        data: null
-    };
+  this.result = {
+      error: null,
+      data: null
+  };
 }
 
 defineSupportCode(function({
-    setWorldConstructor
+  setWorldConstructor
 }) {
-    setWorldConstructor(CustomWorld)
-})
+  setWorldConstructor(CustomWorld)
+});
