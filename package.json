@@ -9,10 +9,8 @@
   },
   "license": "Apache-2.0",
   "scripts": {
-    "db:down": "db-migrate down",
-    "db:reset": "db-migrate reset",
-    "db:up": "db-migrate up",
-    "start": "docker run --detach --publish 5432:5432 --net enterprisekanban --name ek_db ek_dbs",
+    "build": "docker build --tag e-commerce-db .",
+    "start": "docker run --detach --publish 5432:5432 --name e-commerce-db-1 e-commerce-db",
     "test": "cucumber-js --compiler es6:babel-core/register  -r ./features ../e-commerce-features"
   },
   "repository": {
