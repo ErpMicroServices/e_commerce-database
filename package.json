@@ -1,6 +1,6 @@
 {
   "name": "esd_models",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Models used by the enterprise software development application",
   "main": "index.js",
   "author": {
