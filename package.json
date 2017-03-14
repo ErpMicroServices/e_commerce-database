@@ -8,8 +8,8 @@
   },
   "license": "Apache-2.0",
   "scripts": {
-    "build": "docker build --tag e-commerce-db .",
-    "start": "docker run --detach --publish 5432:5432 --name e-commerce-db-1 e-commerce-db",
+    "build": "docker build --rm --tag erpmicroservices/e-commerce-db .",
+    "start": "docker run --publish 5432:5432 --name e-commerce-db-1 erpmicroservices/e-commerce-db",
     "test": "cucumber-js --compiler es6:babel-core/register  -r ./features ../e-commerce-features"
   },
   "repository": {
