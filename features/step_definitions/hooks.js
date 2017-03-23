@@ -11,9 +11,9 @@ defineSupportCode(function({
 }) {
 
     Before(function(result, callback) {
-      // Promise.all([
       this.db.any("delete from user_login")
-      // ])
+      .then(() => this.db.any("delete from web_preference_type"))
+      .then(() => this.db.any("delete from function_type"))
       .then((data) => callback())
       .catch((error) => callback(error));
     });

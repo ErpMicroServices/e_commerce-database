@@ -1,7 +1,7 @@
 create table if not exists user_login (
   id uuid default uuid_generate_v4(),
   user_id text not null  unique constraint user_id check (user_id <> ''),
-  password text constraint password_not_empty check (password <> ''),
+  password text not null constraint password_not_empty check (password <> ''),
   party_id uuid,
   web_address_id uuid,
   constraint user_login_id_pk primary key(id)
@@ -11,7 +11,7 @@ create table if not exists login_account_history(
   id uuid default uuid_generate_v4(),
   user_login uuid not null references user_login(id),
   user_id text not null  unique constraint user_id check (user_id <> ''),
-  password text constraint password_not_empty check (password <> ''),
+  password text not null constraint password_not_empty check (password <> ''),
   active_from timestamp not null,
   active_thru timestamp,
   constraint login_account_history_id_pk primary key(id)
@@ -45,7 +45,7 @@ create table if not exists web_content(
 
 create table if not exists function_type(
   id uuid default uuid_generate_v4(),
-  content_description text not null constraint  content_description_not_empty check( content_description <> ''),
+  description text not null unique constraint  content_description_not_empty check( description <> ''),
   constraint function_type_id_pk primary key(id)
 );
 

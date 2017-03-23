@@ -9,8 +9,11 @@
   "license": "Apache-2.0",
   "scripts": {
     "build": "docker build --rm --tag erpmicroservices/e-commerce-db .",
-    "start": "docker run --publish 5432:5432 --name e-commerce-db-1 erpmicroservices/e-commerce-db",
-    "test": "cucumber-js --compiler es6:babel-core/register  -r ./features ../e-commerce-features"
+    "db_admin": "docker run --detach --publish 5050:5050 --name e-commerce-db-pgadmin --link e-commerce-db:e-commerce-db thajeztah/pgadmin4",
+    "push": "docker push erpmicroservices/e-commerce-db",
+    "start": "docker run --publish 5432:5432 --name e-commerce-db erpmicroservices/e-commerce-db",
+    "test": "cucumber-js --tags @database --compiler es6:babel-core/register  -r ./features ../e-commerce-features ",
+    "test:one": "cucumber-js --name \"I can create a function type\" --compiler es6:babel-core/register  -r ./features ../e-commerce-features"
   },
   "repository": {
     "type": "git",

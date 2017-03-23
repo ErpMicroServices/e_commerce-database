@@ -11,13 +11,17 @@ function CustomWorld() {
   this.db = database;
   this.user = {
       user_id: '',
-      password: ''
+      password: null
   };
 
   this.result = {
       error: null,
       data: null
   };
+  this.exisiting_web_preference_id = null;
+  this.web_preference_type = null;
+  this.exisiting_function_type_id = null;
+  this.function_type = null;
 }
 
 defineSupportCode(function({

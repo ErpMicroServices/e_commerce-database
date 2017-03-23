@@ -38,8 +38,8 @@ defineSupportCode(function({
     });
 
     When('I logout', function() {
-         this.result.data = {};
-         this.result.error= {};
+         this.result.data = null;
+         this.result.error= null;
     });
 
     Then('I will be logged in', function(callback) {
@@ -58,7 +58,7 @@ defineSupportCode(function({
     Then('I will be given a message that says "The password is required"', function(callback) {
         expect(this.result.error).to.be.ok;
         expect(this.result.data).to.not.be.ok;
-        expect(this.result.error.message).to.be.equal('new row for relation "user_login" violates check constraint "password_not_empty"');
+        expect(this.result.error.message).to.be.equal('null value in column "password" violates not-null constraint');
         callback();
       });
 
