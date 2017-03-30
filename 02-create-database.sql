@@ -31,7 +31,7 @@ create table if not exists web_user_preference(
 
 create table if not exists web_content_status_type(
   id uuid default uuid_generate_v4(),
-  description text not null constraint  web_content_status_type_description_not_empty check( description <> ''),
+  description text not null unique constraint  web_content_status_type_description_not_empty check( description <> ''),
   constraint web_content_status_type_id_pk primary key(id)
 );
 
@@ -60,16 +60,22 @@ create table if not exists web_content_association(
 
 create table if not exists web_content_type(
   id uuid default uuid_generate_v4(),
-  content text not null unique,
+  description text not null unique,
   constraint web_content_type_id_pk primary key(id)
+);
+
+create table if not exists web_content_role_type(
+  id uuid default uuid_generate_v4(),
+  description text not null unique,
+  constraint web_content_role_type_pk primary key(id)
 );
 
 create table if not exists web_content_role(
   id uuid default uuid_generate_v4(),
   active_from timestamp not null,
   active_thru timestamp,
-  web_content_type_id uuid references web_content_type(id),
   web_content_id uuid references web_content(id),
+  web_content_role_type uuid references web_content_role_type(id),
   party_id uuid,
   constraint web_content_role_id primary key(id)
 );
