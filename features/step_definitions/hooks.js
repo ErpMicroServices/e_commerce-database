@@ -12,6 +12,7 @@ defineSupportCode(function({
 
     Before(function(result, callback) {
       this.db.any("delete from function_type")
+      .then(() => this.db.any("delete from visit"))
       .then(() => this.db.any("delete from web_content_role_type"))
       .then(() => this.db.any("delete from web_content_status_type"))
       .then(() => this.db.any("delete from web_content_type"))
