@@ -10,10 +10,10 @@ create table if not exists user_login (
 create table if not exists login_account_history(
   id uuid default uuid_generate_v4(),
   user_login uuid not null references user_login(id),
-  user_id text not null  unique constraint user_id check (user_id <> ''),
+  user_id text not null constraint user_id check (user_id <> ''),
   password text not null constraint password_not_empty check (password <> ''),
-  active_from timestamp not null,
-  active_thru timestamp,
+  active_from timestamp with time zone not null,
+  active_thru timestamp with time zone,
   constraint login_account_history_id_pk primary key(id)
 );
 
@@ -25,6 +25,8 @@ create table if not exists  web_preference_type(
 
 create table if not exists web_user_preference(
   id uuid default uuid_generate_v4(),
+  value text,
+  user_login_id uuid not null references user_login(id),
   web_preference_type_id uuid not null references web_preference_type(id),
   constraint web_user_preference_id_pk primary key(id)
 );
@@ -72,8 +74,8 @@ create table if not exists web_content_role_type(
 
 create table if not exists web_content_role(
   id uuid default uuid_generate_v4(),
-  active_from timestamp not null,
-  active_thru timestamp,
+  active_from timestamp with time zone not null,
+  active_thru timestamp with time zone,
   web_content_id uuid references web_content(id),
   web_content_role_type uuid references web_content_role_type(id),
   party_id uuid,
@@ -119,8 +121,8 @@ create table if not exists object_usage(
   id uuid default uuid_generate_v4(),
   web_object_id uuid references web_object(id),
   web_content_id uuid references web_content(id),
-  from_date timestamp not null,
-  thru_date timestamp,
+  from_date timestamp with time zone not null,
+  thru_date timestamp with time zone,
   constraint object_usage_pk primary key(id)
 );
 
@@ -159,8 +161,8 @@ create table if not exists subscription_type(
 
 create table if not exists subscription(
   id uuid default uuid_generate_v4(),
-  start_date timestamp not null,
-  end_date timestamp,
+  start_date timestamp with time zone not null,
+  end_date timestamp with time zone,
   subscription_type_id uuid not null references subscription_type(id),
   product_id uuid,
   product_category_id uuid,
@@ -174,7 +176,7 @@ create table if not exists subscription(
 
 create table if not exists subscription_activity(
   id uuid default uuid_generate_v4(),
-  date_sent timestamp not null,
+  date_sent timestamp with time zone not null,
   comment text,
   constraint subscription_activity_pk primary key(id)
 );
@@ -194,8 +196,8 @@ create table server_hit_status_type(
 
 create table visit(
   id uuid default uuid_generate_v4(),
-  from_date timestamp not null,
-  thru_date timestamp,
+  from_date timestamp with time zone not null,
+  thru_date timestamp with time zone,
   cookie text not null unique,
   web_address_id uuid,
   visitor_id uuid,
