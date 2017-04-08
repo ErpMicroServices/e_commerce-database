@@ -153,6 +153,7 @@ create table if not exists party_object(
   constraint party_object_pk primary key(id)
 );
 
+
 create table if not exists subscription_type(
   id uuid default uuid_generate_v4(),
   description text not null unique constraint subscription_type_description_not_empty check(description <> ''),
