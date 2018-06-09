@@ -1,0 +1,16 @@
+databaseChangeLog:
+  - preConditions:
+    - runningAs:
+        username: e_commerce-database
+
+  - changeSet:
+      id: Create and load all data
+      author: Jim Barrows
+      changes:
+        - sqlFile:
+            path: ./sql/install-extensions.sql
+        - sqlFile:
+            path: ./sql/create-database.sql
+      rollback:
+        - sqlFile:
+            path: ./sql/rollback_database.sql
