@@ -1,5 +1,5 @@
 {
-  "name": "e-commerce-db",
+  "name": "e_commerce-database",
   "version": "1.0.0",
   "description": "Database supporting e-commerce activities",
   "author": {
@@ -8,21 +8,18 @@
   },
   "license": "Apache-2.0",
   "scripts": {
-    "build": "docker build --rm --tag erpmicroservices/e-commerce-db .",
-    "db_admin": "docker run --detach --publish 5050:5050 --name e-commerce-db-pgadmin --link e-commerce-db:e-commerce-db thajeztah/pgadmin4",
-    "push": "docker push erpmicroservices/e-commerce-db:latest",
-    "start": "docker run --publish 5432:5432 --name e-commerce-db erpmicroservices/e-commerce-db",
-    "test": "cucumber-js --tags @database --compiler es6:babel-core/register  -r ./features ../e-commerce-features ",
-    "test:one": "cucumber-js --name \"I can create a function type\" --compiler es6:babel-core/register  -r ./features ../e-commerce-features"
+    "db_admin": "docker run --detach --publish 5050:5050 --name e_commerce-database-pgadmin --link e_commerce-database:db thajeztah/pgadmin4",
+    "start": "docker run --publish 5432:5432 --name e_commerce-database erpmicroservices/e_commerce-database",
+    "test": "cucumber-js --tags @e_commerce-database --compiler es6:babel-core/register  -r ./features ../e_commerce-features "
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ErpMicroServices/e-commerce-db.git"
+    "url": "git+https://github.com/ErpMicroServices/e_commerce-database.git"
   },
   "bugs": {
-    "url": "https://github.com/ErpMicroServices/e-commerce-db/issues"
+    "url": "https://github.com/ErpMicroServices/e_commerce-database/issues"
   },
-  "homepage": "https://github.com/ErpMicroServices/e-commerce-db#readme",
+  "homepage": "https://github.com/ErpMicroServices/e_commerce-database#readme",
   "devDependencies": {
     "babel-cli": "^6.23.0",
     "babel-preset-es2015": "^6.22.0",
