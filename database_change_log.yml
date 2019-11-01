@@ -8,9 +8,9 @@ databaseChangeLog:
       author: Jim Barrows
       changes:
         - sqlFile:
-            path: ./sql/install-extensions.sql
+            path: ./sql/01-install-extensions.sql
         - sqlFile:
-            path: ./sql/create-database.sql
+            path: ./sql/02-create-database.sql
       rollback:
         - sqlFile:
             path: ./sql/rollback_database.sql
