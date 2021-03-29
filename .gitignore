@@ -17,3 +17,5 @@ dataSources.local.xml
 dataSources/
 workspace.xml
 /e_commerce-database.iml
+.idea/
+build/
