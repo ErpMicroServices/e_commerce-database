@@ -25,10 +25,11 @@ create table if not exists login_account_history
 
 create table if not exists web_address
 (
-    id                 uuid default uuid_generate_v4(),
-    end_point          text not null
+    id                uuid default uuid_generate_v4(),
+    end_point         text not null
         constraint end_point_not_empty check (end_point <> ''),
-    contact_mechanism_ uuid not null
+    contact_mechanism uuid not null,
+    constraint web_address_id_pk primary key (id)
 );
 
 create table if not exists web_preference_type

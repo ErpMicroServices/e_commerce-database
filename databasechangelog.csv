@@ -1,2 +1,0 @@
-"ID"                      , "AUTHOR"     , "FILENAME"                 , "DATEEXECUTED"           , "ORDEREXECUTED", "EXECTYPE", "MD5SUM"                            , "DESCRIPTION"     , "COMMENTS", "TAG", "LIQUIBASE", "CONTEXTS", "LABELS"
-"Create and load all data", "Jim Barrows", "./database_change_log.yml", "2019-11-02T10:03:38.877", "1"            , "EXECUTED", "7:5ffd397934f20d56e0d06e371ca6a9fb", "sqlFile; sqlFile",           , ""   , "3.5.3"    , "()"      , ""      , "2707018831"
