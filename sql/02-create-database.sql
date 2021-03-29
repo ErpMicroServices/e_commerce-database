@@ -37,6 +37,7 @@ create table if not exists web_preference_type
     id          uuid default uuid_generate_v4(),
     description text not null unique
         constraint description_not_empty check ( description <> ''),
+    parent_id   UUID REFERENCES web_preference_type (id),
     constraint web_preference_type_id_pk primary key (id)
 );
 
@@ -54,6 +55,7 @@ create table if not exists web_content_status_type
     id          uuid default uuid_generate_v4(),
     description text not null unique
         constraint web_content_status_type_description_not_empty check ( description <> ''),
+    parent_id   UUID REFERENCES web_content_status_type (id),
     constraint web_content_status_type_id_pk primary key (id)
 );
 
@@ -73,6 +75,7 @@ create table if not exists function_type
     id          uuid default uuid_generate_v4(),
     description text not null unique
         constraint content_description_not_empty check ( description <> ''),
+    parent_id   UUID REFERENCES function_type (id),
     constraint function_type_id_pk primary key (id)
 );
 
@@ -90,6 +93,7 @@ create table if not exists web_content_type
 (
     id          uuid default uuid_generate_v4(),
     description text not null unique,
+    parent_id   UUID REFERENCES web_content_type (id),
     constraint web_content_type_id_pk primary key (id)
 );
 
@@ -97,6 +101,7 @@ create table if not exists web_content_role_type
 (
     id          uuid default uuid_generate_v4(),
     description text not null unique,
+    parent_id   UUID REFERENCES web_content_role_type (id),
     constraint web_content_role_type_pk primary key (id)
 );
 
@@ -116,6 +121,7 @@ create table if not exists web_object_type
     id          uuid default uuid_generate_v4(),
     description text not null unique
         constraint web_object_type_description_not_empty check (description <> ''),
+    parent_id   UUID REFERENCES web_object_type (id),
     constraint web_object_type_pk primary key (id)
 );
 
@@ -172,6 +178,7 @@ create table if not exists purpose_type
     id          uuid default uuid_generate_v4(),
     description text not null unique
         constraint purpose_type_description_not_empty check (description <> ''),
+    parent_id   UUID REFERENCES purpose_type (id),
     constraint purpose_type_pk primary key (id)
 );
 
@@ -205,6 +212,7 @@ create table if not exists subscription_type
     id          uuid default uuid_generate_v4(),
     description text not null unique
         constraint subscription_type_description_not_empty check (description <> ''),
+    parent_id   UUID REFERENCES subscription_type (id),
     constraint subscription_type_pk primary key (id)
 );
 
@@ -245,6 +253,7 @@ create table server_hit_status_type
     id          uuid default uuid_generate_v4(),
     description text not null unique
         constraint server_hit_status_type_description check (description <> ''),
+    parent_id   UUID REFERENCES server_hit_status_type (id),
     constraint server_hit_status_type_pk primary key (id)
 );
 
@@ -261,11 +270,12 @@ create table visit
 
 create table if not exists platform_type
 (
-    id      uuid default uuid_generate_v4(),
-    name    text not null
+    id        uuid default uuid_generate_v4(),
+    name      text not null
         constraint platform_type_name check (name <> ''),
-    version text not null
+    version   text not null
         constraint platform_type_version check (version <> ''),
+    parent_id UUID REFERENCES platform_type (id),
     constraint platform_type_pk primary key (id)
 );
 
@@ -292,6 +302,7 @@ create table user_agent_method_type
     id          uuid default uuid_generate_v4(),
     description text not null unique
         constraint user_agent_method_type_description check (description <> ''),
+    parent_id   UUID REFERENCES user_agent_method_type (id),
     constraint user_agent_method_type_pk primary key (id)
 );
 
@@ -300,6 +311,7 @@ create table user_agent_type
     id          uuid default uuid_generate_v4(),
     description text not null unique
         constraint user_agent_type_description check (description <> ''),
+    parent_id   UUID REFERENCES user_agent_type (id),
     constraint user_agent_type_pk primary key (id)
 );
 
