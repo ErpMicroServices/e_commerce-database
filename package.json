@@ -11,7 +11,7 @@
 		"build": "mkdir -p build; npm run build:database; npm run build:docker",
 		"build:docker": "docker build --tag erpmicroservices/e_commerce-database --rm .",
 		"build:database": "liquibase-3.5.3-bin/liquibase --changeLogFile=./database_change_log.yml --url='offline:postgresql' updateSql > build/database_up.sql",
-		"clean": "rm -rf build; rm -rf generated-sql;yes | docker rmi erpmicroservices/e_commerce-database; yes | docker volume prune",
+		"clean": "rm -rf build; rm -rf generated-sql;yes | docker rmi erpmicroservices/e_commerce-database; yes | docker volume prune; docker rm e_commerce-database",
 		"update_database": "liquibase-3.5.3-bin/liquibase --changeLogFile=./database_change_log.yml --url='jdbc:postgresql://localhost/people_and_organizations' --username=people_and_organizations --password=people_and_organizations update",
 		"push": "docker push erpmicroservices/e_commerce-database:latest",
 		"start": "docker run --publish 5432:5432 --name e_commerce-database erpmicroservices/e_commerce-database",
