@@ -188,66 +188,13 @@ create table if not exists party_object
     constraint party_object_pk primary key (id)
 );
 
-
-create table if not exists subscription_type
+create table user_agent_type
 (
     id          uuid default uuid_generate_v4(),
     description text not null unique
-        constraint subscription_type_description_not_empty check (description <> ''),
-    parent_id   UUID REFERENCES subscription_type (id),
-    constraint subscription_type_pk primary key (id)
-);
-
-create table if not exists subscription
-(
-    id                      uuid default uuid_generate_v4(),
-    start_date              timestamp with time zone not null,
-    end_date                timestamp with time zone,
-    subscription_type_id    uuid                     not null references subscription_type (id),
-    product_id              uuid,
-    product_category_id     uuid,
-    need_type               uuid,
-    party_role_id           uuid,
-    contact_mechanism_id    uuid,
-    commmunication_event_id uuid,
-    party_need              uuid,
-    constraint subscription_pk primary key (id)
-);
-
-create table if not exists subscription_activity
-(
-    id        uuid default uuid_generate_v4(),
-    date_sent timestamp with time zone not null,
-    comment   text,
-    constraint subscription_activity_pk primary key (id)
-);
-
-create table if not exists subscription_fulfillment_piece
-(
-    id                       uuid default uuid_generate_v4(),
-    subscription_id          uuid not null references subscription (id),
-    subscription_activity_id uuid not null references subscription_activity (id),
-    constraint subscription_fulfillment_piece_pk primary key (id)
-);
-
-create table server_hit_status_type
-(
-    id          uuid default uuid_generate_v4(),
-    description text not null unique
-        constraint server_hit_status_type_description check (description <> ''),
-    parent_id   UUID REFERENCES server_hit_status_type (id),
-    constraint server_hit_status_type_pk primary key (id)
-);
-
-create table visit
-(
-    id             uuid default uuid_generate_v4(),
-    from_date      timestamp with time zone not null,
-    thru_date      timestamp with time zone,
-    cookie         text                     not null unique,
-    web_address_id uuid,
-    visitor_id     uuid,
-    constraint visit_pk primary key (id)
+        constraint user_agent_type_description check (description <> ''),
+    parent_id   UUID REFERENCES user_agent_type (id),
+    constraint user_agent_type_pk primary key (id)
 );
 
 create table if not exists platform_type
@@ -259,16 +206,6 @@ create table if not exists platform_type
         constraint platform_type_version check (version <> ''),
     parent_id UUID REFERENCES platform_type (id),
     constraint platform_type_pk primary key (id)
-);
-
-create table if not exists browser_type
-(
-    id      uuid default uuid_generate_v4(),
-    name    text not null
-        constraint browser_type_name check (name <> ''),
-    version text not null
-        constraint browser_type_version check (version <> ''),
-    constraint browser_type_pk primary key (id)
 );
 
 create table if not exists protocol_type
@@ -288,13 +225,15 @@ create table user_agent_method_type
     constraint user_agent_method_type_pk primary key (id)
 );
 
-create table user_agent_type
+create table visit
 (
-    id          uuid default uuid_generate_v4(),
-    description text not null unique
-        constraint user_agent_type_description check (description <> ''),
-    parent_id   UUID REFERENCES user_agent_type (id),
-    constraint user_agent_type_pk primary key (id)
+    id             uuid default uuid_generate_v4(),
+    from_date      timestamp with time zone not null,
+    thru_date      timestamp with time zone,
+    cookie         text                     not null unique,
+    web_address_id uuid,
+    visitor_id     uuid,
+    constraint visit_pk primary key (id)
 );
 
 create table if not exists user_agent
@@ -307,14 +246,100 @@ create table if not exists user_agent
     constraint user_agent_pk primary key (id)
 );
 
+create table server_hit_status_type
+(
+    id          uuid default uuid_generate_v4(),
+    description text not null unique
+        constraint server_hit_status_type_description check (description <> ''),
+    parent_id   UUID REFERENCES server_hit_status_type (id),
+    constraint server_hit_status_type_pk primary key (id)
+);
+
 create table if not exists server_hit
 (
     id                        uuid default uuid_generate_v4(),
+    date_time                 timestamp with time zone not null,
     user_login_id             uuid references user_login (id),
-    server_hit_status_type_id uuid not null references server_hit_status_type (id),
-    visit_id                  uuid not null references visit (id),
-    ip_adddress_id            uuid not null,
-    user_agent_id             uuid not null references user_agent (id),
-    web_content_id            uuid not null references web_content (id),
+    server_hit_status_type_id uuid                     not null references server_hit_status_type (id),
+    visit_id                  uuid                     not null references visit (id),
+    ip_address_id             uuid                     not null,
+    user_agent_id             uuid                     not null references user_agent (id),
+    web_content_id            uuid                     not null references web_content (id),
     constraint server_hit_pk primary key (id)
+);
+
+create table if not exists subscription_type
+(
+    id          uuid default uuid_generate_v4(),
+    description text not null unique
+        constraint subscription_type_description_not_empty check (description <> ''),
+    parent_id   UUID REFERENCES subscription_type (id),
+    constraint subscription_type_pk primary key (id)
+);
+
+create table need_type
+(
+    id          uuid default uuid_generate_v4(),
+    description text not null unique
+        constraint party_need_type_description check (description <> ''),
+    parent_id   UUID REFERENCES need_type (id),
+    constraint party_need_type_pk primary key (id)
+);
+
+create table party_need
+(
+    id                     uuid default uuid_generate_v4(),
+    description            text not null unique
+        constraint party_need_description check (description <> ''),
+    date_identified        date not null,
+    communication_event_id uuid,
+    party_role_id          uuid,
+    product_category_id    uuid,
+    product                uuid,
+    server_hit_id          uuid references server_hit (id),
+    type_id                uuid references need_type (id),
+    constraint party_need_pk primary key (id)
+);
+
+
+create table if not exists subscription
+(
+    id                      uuid default uuid_generate_v4(),
+    start_date              timestamp with time zone not null,
+    end_date                timestamp with time zone,
+    subscription_type_id    uuid                     not null references subscription_type (id),
+    product_id              uuid,
+    product_category_id     uuid,
+    need_type               uuid references need_type (id),
+    party_role_id           uuid,
+    contact_mechanism_id    uuid,
+    commmunication_event_id uuid,
+    party_need              uuid references party_need (id),
+    constraint subscription_pk primary key (id)
+);
+
+create table if not exists subscription_activity
+(
+    id        uuid default uuid_generate_v4(),
+    date_sent timestamp with time zone not null,
+    comment   text,
+    constraint subscription_activity_pk primary key (id)
+);
+
+create table if not exists subscription_fulfillment_piece
+(
+    id                       uuid default uuid_generate_v4(),
+    subscription_id          uuid not null references subscription (id),
+    subscription_activity_id uuid not null references subscription_activity (id),
+    constraint subscription_fulfillment_piece_pk primary key (id)
+);
+
+create table if not exists browser_type
+(
+    id      uuid default uuid_generate_v4(),
+    name    text not null
+        constraint browser_type_name check (name <> ''),
+    version text not null
+        constraint browser_type_version check (version <> ''),
+    constraint browser_type_pk primary key (id)
 );
