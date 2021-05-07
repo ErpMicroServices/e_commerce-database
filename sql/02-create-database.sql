@@ -127,33 +127,15 @@ create table if not exists web_object_type
 
 create table if not exists web_object
 (
-    id                 uuid default uuid_generate_v4(),
-    name               text not null unique
+    id            uuid default uuid_generate_v4(),
+    name          text not null unique
         constraint web_object_name_not_empty check (name <> ''),
-    description        text not null
+    description   text not null
         constraint web_object_description_not_empty check (name <> ''),
-    file_location      text,
-    web_object_type_id uuid not null references web_object_type (id),
+    file_location text,
+    type_id       uuid not null references web_object_type (id),
     constraint web_object_id_pk primary key (id)
 );
-
-create table if not exists electronic_text_object
-(
-    electronic_text text not null
-        constraint electronic_text_object_electronic_text_not_empty check (electronic_text <> '')
-) inherits (web_object);
-
-create table if not exists image_object
-(
-    image_location text not null
-        constraint image_object_image_location_not_empty check (image_location <> '')
-) inherits (web_object);
-
-create table if not exists other_object
-(
-    object_content  text,
-    object_location text
-) inherits (web_object);
 
 create table if not exists feature_object
 (
@@ -168,8 +150,8 @@ create table if not exists object_usage
     id             uuid default uuid_generate_v4(),
     web_object_id  uuid references web_object (id),
     web_content_id uuid references web_content (id),
-    from_date      timestamp with time zone not null,
-    thru_date      timestamp with time zone,
+    from_date      date not null,
+    thru_date      date,
     constraint object_usage_pk primary key (id)
 );
 
@@ -184,9 +166,9 @@ create table if not exists purpose_type
 
 create table if not exists object_purpose
 (
-    id              uuid default uuid_generate_v4(),
-    web_object_id   uuid not null references web_object (id),
-    purpose_type_id uuid not null references purpose_type (id),
+    id            uuid default uuid_generate_v4(),
+    web_object_id uuid not null references web_object (id),
+    types_id      uuid not null references purpose_type (id),
     constraint object_purpose_pk primary key (id)
 );
 
