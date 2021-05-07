@@ -12,23 +12,23 @@ create table if not exists user_login
 
 create table if not exists login_account_history
 (
-    id          uuid default uuid_generate_v4(),
-    user_login  uuid                     not null references user_login (id),
-    user_id     text                     not null
+    id            uuid default uuid_generate_v4(),
+    user_login_id uuid                     not null references user_login (id),
+    user_id       text                     not null
         constraint user_id check (user_id <> ''),
-    password    text                     not null
+    password      text                     not null
         constraint password_not_empty check (password <> ''),
-    active_from timestamp with time zone not null,
-    active_thru timestamp with time zone,
+    active_from   timestamp with time zone not null,
+    active_thru   timestamp with time zone,
     constraint login_account_history_id_pk primary key (id)
 );
 
 create table if not exists web_address
 (
-    id                uuid default uuid_generate_v4(),
-    end_point         text not null
+    id                   uuid default uuid_generate_v4(),
+    end_point            text not null
         constraint end_point_not_empty check (end_point <> ''),
-    contact_mechanism uuid not null,
+    contact_mechanism_id uuid not null,
     constraint web_address_id_pk primary key (id)
 );
 
@@ -43,10 +43,10 @@ create table if not exists web_preference_type
 
 create table if not exists web_user_preference
 (
-    id                     uuid default uuid_generate_v4(),
-    value                  text,
-    user_login_id          uuid not null references user_login (id),
-    web_preference_type_id uuid not null references web_preference_type (id),
+    id            uuid default uuid_generate_v4(),
+    value         text,
+    user_login_id uuid not null references user_login (id),
+    type_id       uuid not null references web_preference_type (id),
     constraint web_user_preference_id_pk primary key (id)
 );
 
@@ -61,12 +61,12 @@ create table if not exists web_content_status_type
 
 create table if not exists web_content
 (
-    id                         uuid default uuid_generate_v4(),
-    content_description        text not null
-        constraint content_description_not_empty check ( content_description <> ''),
-    file_location              text,
-    web_content_status_type_id uuid not null references web_content_status_type (id),
-    web_address                uuid not null references web_address (id),
+    id             uuid default uuid_generate_v4(),
+    description    text not null
+        constraint content_description_not_empty check ( description <> ''),
+    file_location  text,
+    status_id      uuid not null references web_content_status_type (id),
+    web_address_id uuid not null references web_address (id),
     constraint web_content_id_pk primary key (id)
 );
 
@@ -81,11 +81,11 @@ create table if not exists function_type
 
 create table if not exists web_content_association
 (
-    id                    uuid default uuid_generate_v4(),
-    upper_left_coordinate point,
-    function_type         uuid references function_type (id),
-    associate_for         uuid references web_content (id),
-    associate_of          uuid references web_content (id),
+    id                           uuid default uuid_generate_v4(),
+    upper_left_coordinate        point,
+    function_type_id             uuid references function_type (id),
+    associate_for_web_content_id uuid references web_content (id),
+    associate_of_web_content_id  uuid references web_content (id),
     constraint web_content_association_id_pk primary key (id)
 );
 
