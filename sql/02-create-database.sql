@@ -304,33 +304,34 @@ create table party_need
 
 create table if not exists subscription
 (
-    id                      uuid default uuid_generate_v4(),
-    start_date              timestamp with time zone not null,
-    end_date                timestamp with time zone,
-    subscription_type_id    uuid                     not null references subscription_type (id),
-    product_id              uuid,
-    product_category_id     uuid,
-    need_type               uuid references need_type (id),
-    party_role_id           uuid,
-    contact_mechanism_id    uuid,
-    commmunication_event_id uuid,
-    party_need              uuid references party_need (id),
+    id                     uuid default uuid_generate_v4(),
+    start_date             date not null,
+    end_date               date,
+    type_id                uuid not null references subscription_type (id),
+    party_need_id          uuid references party_need (id),
+    product_id             uuid,
+    product_category_id    uuid,
+    need_type_id           uuid references need_type (id),
+    party_role_id          uuid,
+    contact_mechanism_id   uuid,
+    communication_event_id uuid,
+    party_need             uuid references party_need (id),
     constraint subscription_pk primary key (id)
 );
 
 create table if not exists subscription_activity
 (
     id        uuid default uuid_generate_v4(),
-    date_sent timestamp with time zone not null,
+    date_sent date not null,
     comment   text,
     constraint subscription_activity_pk primary key (id)
 );
 
 create table if not exists subscription_fulfillment_piece
 (
-    id                       uuid default uuid_generate_v4(),
-    subscription_id          uuid not null references subscription (id),
-    subscription_activity_id uuid not null references subscription_activity (id),
+    id                         uuid default uuid_generate_v4(),
+    subscription_id            uuid not null references subscription (id),
+    subscription_activities_id uuid not null references subscription_activity (id),
     constraint subscription_fulfillment_piece_pk primary key (id)
 );
 
@@ -342,4 +343,12 @@ create table if not exists browser_type
     version text not null
         constraint browser_type_version check (version <> ''),
     constraint browser_type_pk primary key (id)
+);
+
+create table if not exists order_item
+(
+    id              uuid default uuid_generate_v4(),
+    order_item_id   uuid not null,
+    subscription_id uuid not null references subscription (id),
+    constraint order_item_pk primary key (id)
 );
