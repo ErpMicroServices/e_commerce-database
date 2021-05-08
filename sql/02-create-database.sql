@@ -232,8 +232,18 @@ create table visit
     thru_date      timestamp with time zone,
     cookie         text                     not null unique,
     web_address_id uuid,
-    visitor_id     uuid,
+    party_id       uuid,
     constraint visit_pk primary key (id)
+);
+
+create table if not exists browser_type
+(
+    id      uuid default uuid_generate_v4(),
+    name    text not null
+        constraint browser_type_name check (name <> ''),
+    version text not null
+        constraint browser_type_version check (version <> ''),
+    constraint browser_type_pk primary key (id)
 );
 
 create table if not exists user_agent
@@ -242,7 +252,8 @@ create table if not exists user_agent
     platform_type_id          uuid references platform_type (id),
     protocol_type_id          uuid references protocol_type (id),
     user_agent_method_type_id uuid references user_agent_method_type (id),
-    user_agent_type_id        uuid references user_agent_type (id),
+    browser_type_id           uuid references browser_type (id),
+    type_id                   uuid references user_agent_type (id),
     constraint user_agent_pk primary key (id)
 );
 
@@ -257,14 +268,15 @@ create table server_hit_status_type
 
 create table if not exists server_hit
 (
-    id                        uuid default uuid_generate_v4(),
-    date_time                 timestamp with time zone not null,
-    user_login_id             uuid references user_login (id),
-    server_hit_status_type_id uuid                     not null references server_hit_status_type (id),
-    visit_id                  uuid                     not null references visit (id),
-    ip_address_id             uuid                     not null,
-    user_agent_id             uuid                     not null references user_agent (id),
-    web_content_id            uuid                     not null references web_content (id),
+    id              uuid   default uuid_generate_v4(),
+    date_time       timestamp with time zone not null,
+    number_of_bytes bigint default 0,
+    user_login_id   uuid references user_login (id),
+    status_type_id  uuid                     not null references server_hit_status_type (id),
+    visit_id        uuid                     not null references visit (id),
+    ip_address_id   uuid                     not null,
+    user_agent_id   uuid                     not null references user_agent (id),
+    web_content_id  uuid                     not null references web_content (id),
     constraint server_hit_pk primary key (id)
 );
 
@@ -333,16 +345,6 @@ create table if not exists subscription_fulfillment_piece
     subscription_id            uuid not null references subscription (id),
     subscription_activities_id uuid not null references subscription_activity (id),
     constraint subscription_fulfillment_piece_pk primary key (id)
-);
-
-create table if not exists browser_type
-(
-    id      uuid default uuid_generate_v4(),
-    name    text not null
-        constraint browser_type_name check (name <> ''),
-    version text not null
-        constraint browser_type_version check (version <> ''),
-    constraint browser_type_pk primary key (id)
 );
 
 create table if not exists order_item
