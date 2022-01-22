@@ -40,7 +40,7 @@
 		"cucumber": "^6.0.5",
 		"graphql": "^15.5.0",
 		"graphql-tag": "^2.11.10",
-		"node-fetch": "^2.6.1",
+		"node-fetch": "^3.1.1",
 		"stream-transform": "^2.0.4",
 		"uuid": "^3.4.0"
 	}
