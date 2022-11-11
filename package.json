@@ -26,7 +26,7 @@
 	},
 	"homepage": "https://github.com/ErpMicroServices/e_commerce-database#readme",
 	"dependencies": {
-		"moment": "^2.29.2",
+		"moment": "^2.29.4",
 		"pg-promise": "^9.3.3"
 	},
 	"devDependencies": {
