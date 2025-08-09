@@ -29,7 +29,7 @@
 	"homepage": "https://github.com/ErpMicroServices/e_commerce-database#readme",
 	"dependencies": {
 		"moment": "^2.29.4",
-		"pg-promise": "^11.5.0"
+		"pg-promise": "^11.5.5"
 	},
 	"devDependencies": {
 		"@babel/core": "^7.12.10",
